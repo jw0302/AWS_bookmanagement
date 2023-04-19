@@ -12,10 +12,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.toyproject.bookmanagement.aop.annotation.ValidAspect;
 import com.toyproject.bookmanagement.dto.auth.SignupReqDto;
+import com.toyproject.bookmanagement.service.AuthenticationService;
+
+import lombok.RequiredArgsConstructor;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/auth")
 public class AuthenticationController {
+	
+	private final AuthenticationService authenticationService; 
 
 	
 	@PostMapping("/login")
@@ -27,6 +33,9 @@ public class AuthenticationController {
 	@ValidAspect
 	@PostMapping("/signup")
 	public ResponseEntity<?> signup(@Valid @RequestBody SignupReqDto signupReqDto, BindingResult bindingResult) {	// 검증 오류가 발생할 경우 오류 내용을 보관하는 스프링 프레임워크에서 제공하는 객체
+		// 중복체크가 회원가입 전에 실행되어야 함
+		authenticationService.checkDuplicatedEmail(signupReqDto.getEmail());
+//		authenticationService.registerUser(signupReqDto);
 		return ResponseEntity.ok(null);
 	}
 }
