@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.toyproject.bookmanagement.aop.annotation.ValidAspect;
+import com.toyproject.bookmanagement.dto.auth.LoginReqDto;
 import com.toyproject.bookmanagement.dto.auth.SignupReqDto;
 import com.toyproject.bookmanagement.service.AuthenticationService;
 
 import lombok.RequiredArgsConstructor;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -24,18 +26,22 @@ public class AuthenticationController {
 	private final AuthenticationService authenticationService; 
 
 	
+	@ValidAspect
 	@PostMapping("/login")
-	public ResponseEntity<?> login() {
-		return ResponseEntity.ok(null);
+	public ResponseEntity<?> login(@Valid @RequestBody LoginReqDto loginReqDto, BindingResult bindingResult) {
+		
+		return ResponseEntity.ok(authenticationService.signin(loginReqDto));
 	}
 	
-	@CrossOrigin			// cros 에러 해결 코드 - cros : post보내는 곳의 port가 서로 다름 이럴땐 서버쪽에서 해결해줘야 함
+	
 	@ValidAspect
 	@PostMapping("/signup")
 	public ResponseEntity<?> signup(@Valid @RequestBody SignupReqDto signupReqDto, BindingResult bindingResult) {	// 검증 오류가 발생할 경우 오류 내용을 보관하는 스프링 프레임워크에서 제공하는 객체
-		// 중복체크가 회원가입 전에 실행되어야 함
+		// 중복체크를 확인 후에 회원가입 실행되어야 함
+		
+		// 중복체크
 		authenticationService.checkDuplicatedEmail(signupReqDto.getEmail());
-//		authenticationService.registerUser(signupReqDto);
-		return ResponseEntity.ok(null);
+		authenticationService.signup(signupReqDto);
+		return ResponseEntity.ok().body(true);
 	}
 }

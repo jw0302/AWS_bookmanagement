@@ -22,22 +22,6 @@
 		<id property="roleId" column="role_id" />
 		<result property="roleName" column="role_name" />
 	</resultMap>
-	
-	<insert id="signupUser" 
-		parameterType="com.toyproject.bookmanagement.entity.User"
-		useGeneratedKeys="true"
-		keyProperty="userId">
-		insert into user_tb
-		values(0, #{email}, #{password}, #{name}, #{provider})
-	</insert>
-	
-	<insert id="addAuthorities" parameterType="list">
-		insert into authority_tb
-		values
-		<foreach collection="list" item="authority" separator=",">
-			(0, #{authority.userId}, #{authority.roleId})
-		</foreach>
-	</insert>
 
 	<select id="findUserByEmail" resultMap="userMap">
 		select
@@ -60,5 +44,18 @@
 		where
 			ut.email = #{email}	
 	</select>
+	
+	<insert id="saveUser" 
+	parameterType="com.toyproject.bookmanagement.entity.User"
+	useGeneratedKeys="true"
+	keyProperty="userId">
+		insert into user_tb
+		values(0, #{email}, #{password}, #{name}, #{provider})
+	</insert>
+	
+	<insert id="saveAuthority" parameterType="com.toyproject.bookmanagement.entity.Authority">
+		insert into authority_tb
+		values (0, #{userId}, #{roleId})
+	</insert>
 
 </mapper>
