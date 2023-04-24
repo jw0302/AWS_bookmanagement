@@ -47,9 +47,18 @@ public class AuthenticationController {
 	}
 	
 	
-	@GetMapping("/authenticated")
+	@GetMapping("/authenticated") // 토큰 유효한지 확인해주는 코드
 	public ResponseEntity<?> authenticated(String accessToken) {
 		
 		return ResponseEntity.ok().body(authenticationService.authenticated(accessToken));
 	}
+	
+	
+	@GetMapping("/principal")
+	public ResponseEntity<?> principal(String accessToken) {
+		return ResponseEntity.ok().body(authenticationService.getPrincipal(accessToken));
+	}
+	
+	
+	
 }
