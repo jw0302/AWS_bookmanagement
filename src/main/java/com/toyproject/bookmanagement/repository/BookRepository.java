@@ -29,8 +29,6 @@ public interface BookRepository {
 	
 	// 대여 기능
 	public List<RentalList> getRentalListByBookId(int bookId);
-	public int getRentalCount(int bookId);
-	public int getRentalStatus(Map<String, Object> map);
 	public int rentalBook(Map<String, Object> map);
 	public int returnBook(Map<String, Object> map);
 }

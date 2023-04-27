@@ -109,36 +109,25 @@ public class BookService {
 	}
 	
 	
-	public int getRentalCount(int bookId) {
-		return bookRepository.getRentalCount(bookId);
-	}
-	
-	
-	public int getRentalStatus(int bookId, int userId) {
+	public int rentalBook(int bookListId, int userId) {
 		
 		Map<String, Object> map = new HashMap<>();
-		map.put("bookId", bookId);
-		map.put("userId", userId);
-		
-		return bookRepository.getRentalStatus(map);
-	}
-	
-	
-	public int rentalBook(int bookId, int userId) {
-		Map<String, Object> map = new HashMap<>();
-		map.put("bookId", bookId);
+		map.put("bookListId", bookListId);
 		map.put("userId", userId);
 		
 		return bookRepository.rentalBook(map);
 	}
 	
 	
-	public int returnBook(int bookId, int userId) {
+	public int returnBook(int bookListId, int userId) {
+		
 		Map<String, Object> map = new HashMap<>();
-		map.put("bookId", bookId);
+		map.put("bookListId", bookListId);
 		map.put("userId", userId);
 		
 		return bookRepository.returnBook(map);
 	}
+	
+	
 
 }

@@ -174,36 +174,17 @@
     		bt.book_id = #{bookId}
 	</select>
 	
-	<select id="getRentalCount" parameterType="Integer" resultType="Integer">
-		select
-			count(*)
-		from
-			book_rental_tb
-		where
-			book_list_id = #{bookListId}
-	</select>
-	
-	<select id="getRentalStatus" parameterType="hashMap" resultType="Integer">
-		select
-			count(*)
-		from
-			book_rental_tb
-		where
-			book_list_id = #{bookListId}
-		and user_id = #{userId}
-	</select>
-	
-	<insert id="rentalBook">
+	<insert id="rentalBook" parameterType="hashMap">
 		insert into book_rental_tb
-		values (0, #{bookId}, #{userId})
+		values (0, #{bookListId}, #{userId})
 	</insert>
 	
-	<delete id="returnBook">
+	<delete id="returnBook" parameterType="hashMap">
 		delete
 		from
 			book_rental_tb
 		where
-			book_id = #{bookId}
+			book_list_id = #{bookListId}
 		and user_id = #{userId}
 	</delete>
 
