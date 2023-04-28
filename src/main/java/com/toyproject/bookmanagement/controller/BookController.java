@@ -29,7 +29,7 @@ public class BookController {
 	}
 
 	
-	@GetMapping("/books")
+	@GetMapping("/books") // 전체조회
 	public ResponseEntity<?> searchBooks(SearchBookReqDto searchBookReqDto) {
 		
 		return ResponseEntity.ok().body(bookService.searchBooks(searchBookReqDto));
@@ -81,6 +81,12 @@ public class BookController {
 	@DeleteMapping("/book/rental/{bookListId}")
 	public ResponseEntity<?> returnBook(@PathVariable int bookListId, int userId) {
 		return ResponseEntity.ok().body(bookService.returnBook(bookListId, userId));
+	}
+	
+	
+	@PostMapping("/admin/book/list")
+	public ResponseEntity<?> bookListRegister(@RequestBody Map<String, Integer> requestMap) {
+		return ResponseEntity.ok().body(bookService.registeBookList(requestMap.get("bookId")));
 	}
 	
 	
